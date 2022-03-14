@@ -13,7 +13,7 @@ data "aws_eks_cluster_auth" "myapp_cluster" {
 }
 
 
-
+###Define EKS cluster
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "18.10.0"
@@ -33,8 +33,7 @@ module "eks" {
     }
   }
 
-
-
+  ###Using VPS subnets
   subnet_ids = module.vpc.private_subnets
   vpc_id = module.vpc.vpc_id
   
@@ -51,24 +50,22 @@ module "eks" {
 
 self_managed_node_groups = {
     one = {
-      name = "group-1"
+      name = "group1"
 
       public_ip    = true
       max_size     = 3
       desired_size = 2
 
       use_mixed_instances_policy = false
-
-
-
     }
-    bootstrap_extra_args = "--kubelet-extra-args '--node-labels=node.kubernetes.io/lifecycle=spot'"
+    two = {
+      name = "group1"
 
-    post_bootstrap_user_data = <<-EOT
-    cd /tmp
-    sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
-    sudo systemctl enable amazon-ssm-agent
-    sudo systemctl start amazon-ssm-agent
-    EOT
+      public_ip    = true
+      max_size     = 3
+      desired_size = 2
+
+      use_mixed_instances_policy = false
+    }
    }
 }

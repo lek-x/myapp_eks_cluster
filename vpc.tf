@@ -5,6 +5,8 @@ provider "aws" {
 ##Get data of AZS from AWS
 data "aws_availability_zones" "azs" {}
 
+
+#Define VPC 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "3.13.0"
